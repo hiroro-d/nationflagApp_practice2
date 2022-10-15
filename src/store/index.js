@@ -11,9 +11,9 @@ export default new Vuex.Store({
   },
   mutations: {
     //メソッドからの指示を受けてstateを操作する
-    detail(state, nume) {
+    detail(state, n) {
       //クリックされた国のnumericを取得
-      state.messe = nume;
+      state.messe = n;
     }
   },
   actions: {

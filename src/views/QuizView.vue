@@ -26,6 +26,8 @@ import countries from '@/country'
 //正解した時は、その国の情報を取得、不正解は無視。
 
 export default {
+  components: {
+  },
   data() {
     return {
       countriesData: countries,
