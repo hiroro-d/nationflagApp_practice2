@@ -9,6 +9,6 @@ module.exports = {
   },
   variants: {},
   daisyui: {
-    themes:["valentine"] //ライドモード、ダークモード、個別指定の順
+    themes:["cupcake"] //ライドモード、ダークモード、個別指定の順
   }
 }

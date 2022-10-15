@@ -1,17 +1,49 @@
 <template>
   <div>
     <h2 class="mb-10">国旗クイズ 5問連続 正解した国の情報は記録されていく形にしたい</h2>
-    <p><button @click="randomSelectIn" class="border border-">問題を国旗で出す</button></p>
-    <span class="text-9xl"><flag class="mb-10 w-60" :iso="questionCountryName"/></span>
-    <ul>
-      <li v-for="(country, index) in selectedCountries" :key="country.id">
-        <input type="radio" name="question" :id="'choose' + index" v-model="userChose" :value="index">
-          <label :for="'choose' + index">  {{ country.ja_name }}</label>
+    <div class="flex">
+      <p><button @click="randomSelectIn" class="btn btn-accent">問題を国旗で出す</button></p>
+
+      <ul class="steps">
+        <li class="step"></li>
+        <li class="step"></li>
+        <li class="step step-primary"></li>
+        <li class="step"></li>
+        <li class="step"></li>
+      </ul>
+    </div>
+    <div class="flex p-10">
+      <span class="text-9xl"><flag class="mb-10 w-60" :iso="questionCountryName"/></span>
+      <p v-show="questionCountryName" class="p-10">ヒント {{ questionCountryName }}</p>
+
+
+
+      <div class="avatar" v-show="checkA">
+        <div class="w-24 mask mask-squircle">
+          <span class="text-9xl"><flag class="mb-10 w-60" :iso="questionCountryName"/></span>
+        </div>
+      </div>
+    </div>
+
+             <p v-show="checkA" class="btn btn-secondary absolute left-44 top-60">{{ checkA }}</p>
+    
+    <ul v-show="selectedCountries[0].ja_name" class="flex flex-col px-10 bottom-1">
+      <li @click="qActive1(selectedCountries[0].ja_name)" class="w-full btn text-xl mb-10">
+        <input type="checkbox" name="question1" v-model="userChose1" class="hidden">
+           {{ selectedCountries[0].ja_name }}
+      </li>
+      <li @click="qActive2(selectedCountries[1].ja_name)" class="w-full btn text-xl mb-10">
+        <input type="checkbox" name="question2" v-model="userChose2" class="hidden">
+           {{ selectedCountries[1].ja_name }}
+      </li>
+      <li @click="qActive3(selectedCountries[2].ja_name)" class="w-full btn text-xl mb-10">
+        <input type="checkbox" name="question3" v-model="userChose3" class="hidden">
+           {{ selectedCountries[2].ja_name }}
       </li>
     </ul>
-    <button @click="answer">答え</button>
-    <p v-show="correct">正解！<span>{{ aiueo }}</span></p>
-    <p v-show="incorrect" >残念！不正解（＾ω＾）<button>もう一度チャレンジ</button></p>
+  
+
+
     <hr>
     <hr>
     <div id="seikaisitabun" class="relative">
@@ -31,8 +63,10 @@ export default {
   data() {
     return {
       countriesData: countries,
-      selectedCountries: '',
-      userChose: 0,
+      selectedCountries: 'aiu',
+      userChose1: false, //選んだ答え
+      userChose2: false, //選んだ答え
+      userChose3: false, //選んだ答え
       flagActive: false,
       questionCountryName: '',
       questionCountryNameIndex: 0,
@@ -41,7 +75,8 @@ export default {
       aiueo: [],
       kakikukeko: [],
       kakaka: '',
-      aaaaa: ''
+      kuni: '',
+      checkA: ''
     }
   },
   methods: {
@@ -86,10 +121,80 @@ export default {
     },
     question() { //選んだ３つの国からランダムに１つ選んで、その国の名前をquestionContryNameに入れる関数
       const rand2 = Math.floor(Math.random() * this.selectedCountries.length);
-      this.aaaaa = this.selectedCountries[rand2]
+      this.kuni = this.selectedCountries[rand2].ja_name
       this.questionCountryNameIndex = this.selectedCountries.indexOf(this.selectedCountries[rand2]);
       this.questionCountryName = this.selectedCountries[rand2].alpha2;
-    }
+    },
+    qActive1(sc0) {
+      this.userChose1 = !this.userChose1
+      if(sc0 === this.kuni) {
+        this.checkA = '正解(∩´∀｀)'
+      } else {
+        this.checkA = '残念( *´艸｀)'
+      }
+
+      let cnt = 0
+      new Promise((resolve) => {
+      const ansTime = setInterval(() => {
+        this.userChose1 = !this.userChose1
+        this.randomSelectIn()
+        cnt++
+        if (cnt > 0) {
+        clearInterval(ansTime)
+        }
+        resolve(); //終わったよー
+      }, 2000);
+      }).then(() => { //はーい
+        this.checkA = ''
+      })
+    },
+
+    qActive2(sc1) {
+      this.userChose2 = !this.userChose2
+      if(sc1 === this.kuni) {
+        this.checkA = '正解(∩´∀｀)'
+      } else {
+        this.checkA = '残念( *´艸｀)'
+      }
+
+      let cnt = 0
+      new Promise((resolve) => {
+      const ansTime = setInterval(() => {
+        this.userChose2 = !this.userChose2
+        this.randomSelectIn()
+        cnt++
+        if (cnt > 0) {
+        clearInterval(ansTime)
+        }
+        resolve(); //終わったよー
+      }, 2000);
+      }).then(() => { //はーい
+        this.checkA = ''
+      })
+    },
+    qActive3(sc2) {
+      this.userChose3 = !this.userChose3
+      if(sc2 === this.kuni) {
+        this.checkA = '正解(∩´∀｀)'
+      } else {
+        this.checkA = '残念( *´艸｀)'
+      }
+
+      let cnt = 0
+      new Promise((resolve) => {
+      const ansTime = setInterval(() => {
+        this.userChose3 = !this.userChose3
+        this.randomSelectIn()
+        cnt++
+        if (cnt > 0) {
+        clearInterval(ansTime)
+        }
+        resolve(); //終わったよー
+      }, 2000);
+      }).then(() => { //はーい
+        this.checkA = ''
+      })
+    },
   }
 }
 
