@@ -72,16 +72,19 @@
     <div id="seikaisitabun" class="relative">
       <flag :iso="kakaka" class='mb-10 rounded-full' />
     </div>
+    <BtnNav/>
   </div>
 </template>
 
 <script>
 import countries from '@/country'
+import BtnNav from '@/components/BtnNav'
 
 //正解した時は、その国の情報を取得、不正解は無視。
 
 export default {
   components: {
+    BtnNav,
   },
   data() {
     return {
@@ -244,7 +247,7 @@ export default {
     qActive3(sc2) {
       this.userChose3 = !this.userChose3
       this.erandakuni = this.selectedCountries[2].alpha2
-      
+
       if(sc2 === this.kuni) {
         this.checkA = '正解(∩´∀｀)'
         this.seikaiCount++
