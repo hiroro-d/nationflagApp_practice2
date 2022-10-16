@@ -9,20 +9,23 @@
         <div class="card-body">
                 <div v-show="countriesData">
                   <h2 class="card-title">{{ qTtl }}</h2>
+                  <h3></h3>
                   <p>{{ qTtlSub }}</p>
                   <div class="card-actions justify-end">
-                    <button @click="randomSelectIn" v-show='qTtlSub' class="btn btn-primary mt-5">クイズをはじめる</button>
+                    <button @click="randomSelectIn" v-show='qTtlSub' class="btn btn-primary mt-5 transition ease-in-out delay-150 bg-primary hover:-translate-y-1 hover:scale-110 hover:bg-success duration-300">クイズをはじめる</button>
                   </div>
                 </div>
 
-            <ul class="steps">
-              <li v-show="correct1 === false" class="step"></li>
+            <ul class="steps animate-bounce">
               <li :class="{step:correct1, 'step-primary':correct1}"></li>
               <li :class="{step:correct2, 'step-primary':correct2}"></li>
               <li :class="{step:correct3, 'step-primary':correct3}"></li>
               <li :class="{step:correct4, 'step-primary':correct4}"></li>
               <li :class="{step:correct5, 'step-primary':correct5}"></li>
             </ul>
+                  <div>
+                         <progress class="progress w-56" :value="gage" max="100"></progress><label>{{ gage / 20 }}/5</label>
+                      </div>
         </div>
       </div>
 
@@ -42,9 +45,9 @@
 
 
       <div class="avatar" v-show="checkA">
-        <div class="w-24 mask mask-squircle">
+
           <span class="text-9xl"><flag class="mb-10 w-60" :iso="erandakuni"/></span>
-        </div>
+
       </div>
     </div>
 
@@ -101,6 +104,7 @@ export default {
 
       seikaiCount: 0,
       erandakuni: '',
+      gage: 0,
 
 
       selectedCountries: 'aiu',
@@ -174,7 +178,7 @@ export default {
 
       if(sc0 === this.kuni) {
         this.checkA = '正解(∩´∀｀)'
-
+        this.gage += 20
         this.seikaiCount++
         if(this.seikaiCount === 1) {
           this.correct1 = true
